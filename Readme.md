@@ -2,10 +2,8 @@
 
 ## Overview
 
-La vulnerabilidad Perfusion radica en una deficiencia crítica de permisos (ACLs débiles) dentro del registro de Windows, afectando de forma nativa a los servicios `RpcEptMapper` y `DnsCache` en infraestructuras legacy. Esta mala configuración permite que cualquier usuario local estándar, sin privilegios administrativos, cree una subclave denominada Performance e inyecte la ruta hacia una librería dinámica (DLL) maliciosa a través del valor Library. En esencia, el atacante abusa de la arquitectura de monitoreo de rendimiento del propio sistema operativo para armar una "trampa" dentro de los parámetros de un servicio legítimo.
-
-El vector de ejecución se dispara al invocar el subsistema de métricas mediante una simple consulta a la clase WMI `Win32_Perf`, el servicio vulnerable es engañado forzándolo a cargar nuestra DLL en su espacio de memoria. Dado que estos servicios operan bajo el contexto de máxima autoridad del sistema, el código asume inmediatamente esos mismos permisos, logrando una Escalada de Privilegios Local (LPE) hacia `NT AUTHORITY\SYSTEM`. Para ver una prueba de concepto te recomiendo visitar el siguiente link: [RetroTwo - HTB](https://securitylayer.gitbook.io/securitylayer/maquinas-y-modulos-de-htb/windows-easy/retrotwo).
-
+Perfusion (itm4n) explota ACLs débiles en el registro de Windows (RpcEptMapper/DnsCache), permitiendo a usuarios sin privilegios inyectar una DLL maliciosa en la subclave Performance. El ataque se dispara mediante una consulta WMI a Win32_Perf, forzando al servicio a cargar la librería y ejecutar código como NT AUTHORITY\SYSTEM. 
+Para ver una prueba de concepto te recomiendo visitar el siguiente link: [RetroTwo - HTB](https://securitylayer.gitbook.io/securitylayer/maquinas-y-modulos-de-htb/windows-easy/retrotwo).
 
 ## 📌 Instalación
 
